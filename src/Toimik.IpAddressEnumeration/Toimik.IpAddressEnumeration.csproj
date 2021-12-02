@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Toimik.IpAddressEnumeration</AssemblyName>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Nurhafiz</Authors>
+    <Version>0.1.0</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Company>Toimik</Company>
+    <Description>
+      IP Address enumerators.
+
+      Visit Project Site for documentation.
+    </Description>
+    <Copyright>nurhafiz@hotmail.sg</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/toimik/IpAddressEnumeration</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/toimik/IpAddressEnumeration.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ip-address ip-addresses ipv4-address ipv4-addresses</PackageTags>
+    <Product>Toimik.IpAddressEnumeration</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
