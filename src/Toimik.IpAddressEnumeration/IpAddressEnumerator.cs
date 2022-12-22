@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 nurhafiz@hotmail.sg
+ * Copyright 2021-2022 nurhafiz@hotmail.sg
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,86 +14,85 @@
  * limitations under the License.
  */
 
-namespace Toimik.IpAddressEnumeration
+namespace Toimik.IpAddressEnumeration;
+
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+
+/// <summary>
+/// Represents an enumerator of public IP addresses.
+/// </summary>
+public abstract class IpAddressEnumerator
 {
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Threading;
+    protected const int Octet = 8;
+
+    protected IpAddressEnumerator()
+    {
+    }
 
     /// <summary>
-    /// Represents an enumerator of public IP addresses.
+    /// Gets an enumeration of IP addresses that are publicly available.
     /// </summary>
-    public abstract class IpAddressEnumerator
+    /// <param name="isForward">
+    /// If <c>true</c>, the enumeration goes in a forward fashion. Otherwise, it goes backwards.
+    /// </param>
+    /// <param name="initialIpAddress">
+    /// The IP address whose concatenated binary representation is used as the initial counter
+    /// value. If this is within a reserved block, it is set to the jumped value - the nearest
+    /// public IP address according to the direction indicated by <paramref name="isForward"/>.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token to monitor for cancellation request.
+    /// </param>
+    /// <returns>
+    /// Enumerable of public IP addresses.
+    /// </returns>
+    public abstract IEnumerable<IPAddress> Enumerate(
+        bool isForward = true,
+        IPAddress? initialIpAddress = null,
+        CancellationToken cancellationToken = default);
+
+    protected virtual IList<int> Decrement(IList<int> bits)
     {
-        protected const int Octet = 8;
-
-        protected IpAddressEnumerator()
+        // Find from the back first occurrence of 1
+        int i;
+        for (i = bits.Count - 1; i >= 0; i--)
         {
+            var bit = bits[i];
+            if (bit == 1)
+            {
+                break;
+            }
         }
 
-        /// <summary>
-        /// Gets an enumeration of IP addresses that are publicly available.
-        /// </summary>
-        /// <param name="isForward">
-        /// If <c>true</c>, the enumeration goes in a forward fashion. Otherwise, it goes backwards.
-        /// </param>
-        /// <param name="initialIpAddress">
-        /// The IP address whose concatenated binary representation is used as the initial counter
-        /// value. If this is within a reserved block, it is set to the jumped value - the nearest
-        /// public IP address according to the direction indicated by <paramref name="isForward"/>.
-        /// </param>
-        /// <param name="cancellationToken">
-        /// Token to monitor for cancellation request.
-        /// </param>
-        /// <returns>
-        /// Enumerable of public IP addresses.
-        /// </returns>
-        public abstract IEnumerable<IPAddress> Enumerate(
-            bool isForward = true,
-            IPAddress initialIpAddress = null,
-            CancellationToken cancellationToken = default);
+        // Borrowing from it turns it into zero
+        bits[i] = 0;
 
-        protected virtual IList<int> Decrement(IList<int> bits)
+        // All the bits after that become one
+        for (int j = i + 1; j < bits.Count; j++)
         {
-            // Find from the back first occurrence of 1
-            int i;
-            for (i = bits.Count - 1; i >= 0; i--)
+            bits[j] = 1;
+        }
+
+        return bits;
+    }
+
+    protected virtual IList<int> Increment(IList<int> bits)
+    {
+        int i;
+        for (i = bits.Count - 1; i >= 0; i--)
+        {
+            bits[i] = bits[i] + 1;
+            var hasCarryOver = bits[i] > 1;
+            if (!hasCarryOver)
             {
-                var bit = bits[i];
-                if (bit == 1)
-                {
-                    break;
-                }
+                break;
             }
 
-            // Borrowing from it turns it into zero
             bits[i] = 0;
-
-            // All the bits after that become one
-            for (int j = i + 1; j < bits.Count; j++)
-            {
-                bits[j] = 1;
-            }
-
-            return bits;
         }
 
-        protected virtual IList<int> Increment(IList<int> bits)
-        {
-            int i;
-            for (i = bits.Count - 1; i >= 0; i--)
-            {
-                bits[i] = bits[i] + 1;
-                var hasCarryOver = bits[i] > 1;
-                if (!hasCarryOver)
-                {
-                    break;
-                }
-
-                bits[i] = 0;
-            }
-
-            return bits;
-        }
+        return bits;
     }
 }
