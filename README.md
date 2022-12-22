@@ -1,10 +1,9 @@
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/toimik/IpAddressEnumeration/CI)
 ![Code Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/nurhafiz/2f60942969f1afd5064f7858e47efd8d/raw/IpAddressEnumeration-coverage.json)
 ![Nuget](https://img.shields.io/nuget/v/Toimik.IpAddressEnumeration)
 
 # Toimik.IpAddressEnumeration
 
-.NET 5 C# IP Address enumerators.
+.NET 6 C# IP Address enumerators.
 
 ## Features
 
