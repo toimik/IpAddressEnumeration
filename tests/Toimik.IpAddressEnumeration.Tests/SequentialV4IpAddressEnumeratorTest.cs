@@ -132,6 +132,7 @@ public class SequentialV4IpAddressEnumeratorTest : V4IpAddressEnumeratorTest
     [InlineData("239.255.255.254", "223.255.255.255", false)]
 
     // [InlineData("239.255.255.255", "223.255.255.255", false)] See below
+
     // [InlineData("240.0.0.0", "240.0.0.0", false)] See below
 
     // 240.0.0.0 to 255.255.255.254
@@ -255,8 +256,9 @@ public class SequentialV4IpAddressEnumeratorTest : V4IpAddressEnumeratorTest
     [InlineData("224.0.0.1", null, true)]
     [InlineData("239.255.255.254", null, true)]
 
-    // [InlineData("239.255.255.255", null, true)] See below [InlineData("240.0.0.0", null,
-    // true)] See below
+    // [InlineData("239.255.255.255", null, true)] See below
+
+    // [InlineData("240.0.0.0", null, true)] See below
 
     // 240.0.0.0 - 255.255.255.254
     [InlineData("239.255.255.255", null, true)]
@@ -267,7 +269,7 @@ public class SequentialV4IpAddressEnumeratorTest : V4IpAddressEnumeratorTest
     [InlineData("255.255.255.255", null, true)]
     public override void InitialIpAddressAtBoundaryValue(
         string initialIpAddress,
-        string expectedIpAddress,
+        string? expectedIpAddress,
         bool isForward)
     {
         base.InitialIpAddressAtBoundaryValue(

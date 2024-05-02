@@ -41,7 +41,7 @@ public abstract class V4IpAddressEnumeratorTest
 
     public virtual void InitialIpAddressAtBoundaryValue(
         string reversedInitialIpAddress,
-        string expectedIpAddress,
+        string? expectedIpAddress,
         bool isForward)
     {
         var enumerator = CreateEnumerator();
@@ -65,7 +65,7 @@ public abstract class V4IpAddressEnumeratorTest
         Assert.Throws<FormatException>(() => enumerator.Enumerate(initialIpAddress: IPAddress.Parse(initialIpAddress)).ToList());
     }
 
-    protected static void TestWithInitialAddress(string expectedIpAddress, IEnumerable<IPAddress> ipAddresses)
+    protected static void TestWithInitialAddress(string? expectedIpAddress, IEnumerable<IPAddress> ipAddresses)
     {
         foreach (IPAddress ipAddress in ipAddresses)
         {

@@ -132,6 +132,7 @@ public class StaggeredV4IpAddressEnumeratorTest : V4IpAddressEnumeratorTest
     [InlineData("239.255.255.254", "111.255.255.254", false)]
 
     // [InlineData("239.255.255.255", "111.255.255.255", false)] See below
+
     // [InlineData("240.0.0.0", "112.0.0.0", false)] See below
 
     // 240.0.0.0 to 255.255.255.254
@@ -270,7 +271,7 @@ public class StaggeredV4IpAddressEnumeratorTest : V4IpAddressEnumeratorTest
     [InlineData("255.255.255.255", null, true)]
     public override void InitialIpAddressAtBoundaryValue(
         string reversedInitialIpAddress,
-        string expectedIpAddress,
+        string? expectedIpAddress,
         bool isForward)
     {
         /* Steps to derive the expected IP address
