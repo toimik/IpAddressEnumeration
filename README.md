@@ -3,7 +3,7 @@
 
 # Toimik.IpAddressEnumeration
 
-.NET 8 C# IP Address enumerators.
+.NET 10 C# IP Address enumerators.
 
 ## Features
 
